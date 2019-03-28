@@ -8,8 +8,11 @@
     + 原因总结：由于传递过来的参数auth被client处理之后，就不包含scope信息，因此得到的scope_data为空，因此无法取到相应的catalog。
 + audit_ids字段的作用
 
-
----
+为什么"Scoping to both domain and project is not allowed“
+ 创建一个用户不指定所属project只是指定domain，并分配角色为admin，为和返回的token_data不包含service catalog信息，导致该用户无法执行任何操作？ 背景及其原因的探讨
+ 非project 的scope无法获得catalog信息？打印出token data数据即可验证
+   由于传递过来的参数auth被client处理之后，就不包含scope信息，因此得到的scope_data为空，因此无法取到相应的catalog。
+ audit_ids字段的作用
 
 
 + 问题2：在auth/controllers.py得到的token_id为：
@@ -34,7 +37,6 @@ token_data为：
         try:
             #初始化auth_info信息，包含auth和auth_data=（None,None,None,None）
             auth_info = core.AuthInfo.create(auth=auth)
-           
             auth_context = core.AuthContext(extras={},
                                             method_names=[],
                                             bind={})
@@ -169,7 +171,6 @@ token_data为：
                                            project_id, trust)
         #如果是federation 类型token，则会注入可访问服务信息
         self._populate_service_providers(token_data)
-         
         self._populate_token_dates(token_data, expires=expires,
                                    issued_at=issued_at)
         #注入oauth字段，此处access_token为空，因此该字段值同为同
