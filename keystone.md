@@ -9,9 +9,6 @@
 + audit_ids字段的作用
 
 
----
-
-
 + 问题2：在auth/controllers.py得到的token_id为：
 
 `gAAAAABchwwhy1N9dtJa2Vuuqi2GnhtayqWmtKmAGXs_Wo7OhHAz7ED9EGesMgLmLG8UnJgi9U2vRwJUU-VGCguJT468Jm6ypuXOO-j6wHa1YJGlUV0-fFDGBDRSZkeSZ3MhEuEiRF30cxLm_vdM0mevGiRg06HYjA`
@@ -34,7 +31,6 @@ token_data为：
         try:
             #初始化auth_info信息，包含auth和auth_data=（None,None,None,None）
             auth_info = core.AuthInfo.create(auth=auth)
-           
             auth_context = core.AuthContext(extras={},
                                             method_names=[],
                                             bind={})
@@ -169,7 +165,6 @@ token_data为：
                                            project_id, trust)
         #如果是federation 类型token，则会注入可访问服务信息
         self._populate_service_providers(token_data)
-         
         self._populate_token_dates(token_data, expires=expires,
                                    issued_at=issued_at)
         #注入oauth字段，此处access_token为空，因此该字段值同为同
